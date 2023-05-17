@@ -27,3 +27,6 @@
 .vs/*
 bin/*
 obj/*
+CMakeFiles
+build/*
+!build/.gitkeep

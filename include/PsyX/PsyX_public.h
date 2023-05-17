@@ -4,6 +4,8 @@
 #define CONTROLLER_MAP_FLAG_AXIS		0x4000
 #define CONTROLLER_MAP_FLAG_INVERSE		0x8000
 
+#include <stdio.h>
+
 typedef struct
 {
 	int id;
@@ -102,6 +104,9 @@ extern void PsyX_EnableSwapInterval(int enable);
 
 /* Changes swap interval interval interval */
 extern void PsyX_SetSwapInterval(int interval);
+
+/* Open File */
+extern FILE *PsyX_FS_OpenFile(const char *path, const char *mode);
 
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 }

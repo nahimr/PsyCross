@@ -81,7 +81,7 @@ long MemCardExist(long chan)
 
 	char buf[16];
 	sprintf(&buf[0], "%ld.MCD", chan);
-	memoryCards[chan] = fopen(&buf[0], "rb");
+	memoryCards[chan] = PsyX_FS_OpenFile(&buf[0], "rb");
 
 	memoryCardCmds = McFuncExist;
 
@@ -118,7 +118,7 @@ long MemCardAccept(long chan)
 
 	char buf[16];
 	sprintf(&buf[0], "%ld.MCD", chan);
-	memoryCards[chan] = fopen(&buf[0], "rb");
+	memoryCards[chan] = PsyX_FS_OpenFile(&buf[0], "rb");
 	memoryCardCmds = McFuncAccept;
 
 	unsigned int fileMagic = 0;
@@ -149,10 +149,10 @@ long MemCardOpen(long chan, char* file, long flag)
 	switch (flag)
 	{
 	case 1:
-		memoryCards[chan] = fopen(&buf[0], "rb");
+		memoryCards[chan] = PsyX_FS_OpenFile(&buf[0], "rb");
 		break;
 	case 2://Unchecked
-		memoryCards[chan] = fopen(&buf[0], "wb");
+		memoryCards[chan] = PsyX_FS_OpenFile(&buf[0], "wb");
 		break;
 	}
 	
@@ -278,7 +278,7 @@ long MemCardGetDirentry(long chan, char* name, struct DIRENTRY* dir, long* files
 {
 	char buf[16];
 	sprintf(&buf[0], "%ld.MCD", chan);
-	memoryCards[chan] = fopen(&buf[0], "rb");///@FIXME potential bug, if this is called twice then we can open a card twice. Maybe add a flag for whether memcard is open or not if original SDK did this.
+	memoryCards[chan] = PsyX_FS_OpenFile(&buf[0], "rb");///@FIXME potential bug, if this is called twice then we can open a card twice. Maybe add a flag for whether memcard is open or not if original SDK did this.
 	fseek(memoryCards[chan], 0, SEEK_SET);
 
 	if (strcmp(name, "*") == 0)

@@ -1311,7 +1311,7 @@ void GR_SaveVRAM(const char* outputFileName, int x, int y, int width, int height
 
 #endif
 
-	FILE* fp = fopen(outputFileName, "wb");
+	FILE* fp = PsyX_FS_OpenFile(outputFileName, "wb");
 	if (fp == NULL)
 		return;
 

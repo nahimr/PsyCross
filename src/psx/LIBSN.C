@@ -29,13 +29,13 @@ uintptr_t PCopen(char* name, int flags, int perms)
 	switch (flags)
 	{
 	case 0:
-		fileHandle = (uintptr_t)fopen(name, "rb");
+		fileHandle = (uintptr_t)PsyX_FS_OpenFile(name, "rb");
 		break;
 	case 1:
-		fileHandle = (uintptr_t)fopen(name, "wb");
+		fileHandle = (uintptr_t)PsyX_FS_OpenFile(name, "wb");
 		break;
 	case 2:
-		fileHandle = (uintptr_t)fopen(name, "rwb");
+		fileHandle = (uintptr_t)PsyX_FS_OpenFile(name, "rwb");
 		break;
 	}
 

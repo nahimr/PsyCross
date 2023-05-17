@@ -28,7 +28,7 @@
 #include <pla.h>
 #endif // _WIN32
 
-#ifdef __EMSCRIPTEN__
+#if defined(__EMSCRIPTEN__) || defined(__unix__)
 int strcasecmp(const char* _l, const char* _r)
 {
 	const u_char* l = (u_char*)_l, * r = (u_char*)_r;
@@ -268,7 +268,7 @@ static void PsyX_Sys_InitialiseInput()
 	PsyX_Pad_InitSystem();
 }
 
-#ifdef __GNUC__
+#if defined(__GNUC__)
 #define _stricmp(s1, s2) strcasecmp(s1, s2)
 #endif
 
@@ -379,7 +379,7 @@ void PsyX_Log_Initialise()
 	char appLogFilename[128];
 	sprintf(appLogFilename, "%s.log", g_appNameStr);
 
-	g_logStream = fopen(appLogFilename, "wb");
+	g_logStream = PsyX_FS_OpenFile(appLogFilename, "wb");
 
 	if (!g_logStream)
 		eprinterr("Error - cannot create log file '%s'\n", appLogFilename);

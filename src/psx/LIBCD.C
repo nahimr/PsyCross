@@ -609,7 +609,7 @@ int OpenBinaryImageFile()
 	if (!g_imageFile.basePtr)
 	{
 		// open Binary
-		g_imageFile.fp = fopen(g_cdImageBinaryFileName, "rb");
+		g_imageFile.fp = PsyX_FS_OpenFile(g_cdImageBinaryFileName, "rb");
 
 		if (!g_imageFile.fp)
 		{
@@ -651,7 +651,7 @@ int ParseCueSheet()
 	
 	int cdMode;
 	char* binFileName = NULL;
-	FILE* cueFp = fopen(DISC_CUE_FILENAME, "rb");
+	FILE* cueFp = PsyX_FS_OpenFile(DISC_CUE_FILENAME, "rb");
 
 	if (cueFp == NULL)
 	{
