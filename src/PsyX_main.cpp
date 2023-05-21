@@ -268,7 +268,7 @@ static void PsyX_Sys_InitialiseInput()
 	PsyX_Pad_InitSystem();
 }
 
-#if defined(__GNUC__)
+#ifdef __GNUC__
 #define _stricmp(s1, s2) strcasecmp(s1, s2)
 #endif
 

@@ -20,6 +20,7 @@ Compatibility framework for building and running Psy-Q SDK - based Playstation g
 - `src/render`: OpenGL renderer and PSX VRAM emulation
 - `src/pad`: Controller handling
 - `src/psx`: Implementations of PsyQ - compatible libraries (**libgte, libgpu, libspu, libcd ...**)
+- `src/fs` : PsyX custom filesystem
 - `include/psx`: Headers of PsyQ - compatible libraries (**libgte, libgpu, libspu, libcd ...**)
 - `include/PsyX`: PsyCross interfaces (**window management, configuration, renderer, PGXP-Z**)
 

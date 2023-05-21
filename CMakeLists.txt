@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.6)
 
 project(PsyCross C CXX)
 
+# Compiler arguments
+
 add_compile_options(
 	-Wno-narrowing 
 	-Wno-endif-labels 
@@ -12,6 +14,8 @@ add_compile_options(
 	-fpermissive
 )
 
+# Project Files
+
 file(GLOB_RECURSE PSYCROSS_SRCS_C
 	"*.c"
 )
@@ -20,9 +24,12 @@ file(GLOB_RECURSE PSYCROSS_SRCS_CPP
 	"*.cpp"
 )
 
-set_source_files_properties( ${PSYCROSS_SRCS_C} PROPERTIES LANGUAGE C)
-set_source_files_properties( ${PSYCROSS_SRCS_CPP} PROPERTIES LANGUAGE CXX)
-#set_source_files_properties( "src/gte/PsyX_GTE.cpp" PROPERTIES LANGUAGE C)
+# SDL2 Variables
+
+set(SDL2_BINDIR "${SDL2_DIR}/bin")
+
+set_source_files_properties(${PSYCROSS_SRCS_C} PROPERTIES LANGUAGE C)
+set_source_files_properties(${PSYCROSS_SRCS_CPP} PROPERTIES LANGUAGE CXX)
 
 add_library(psycross_static STATIC ${PSYCROSS_SRCS_C} ${PSYCROSS_SRCS_CPP})
 set_target_properties(psycross_static PROPERTIES OUTPUT_NAME "psycross")

@@ -4,25 +4,22 @@
 #include <assert.h>
 
 FILE *PsyX_FS_OpenFile(const char *path, const char *mode) {
-    #ifdef __ANDROID__
+#ifdef __ANDROID__
+    char buffer[255];
+    sprintf(buffer, "%s/%s", SDL_AndroidGetExternalStoragePath(), path);
+#ifdef _DEBUG
+    eprintinfo("Opening file '%s'\n", buffer);
+#endif
+    FILE* handle = fopen(buffer, mode);
 
-        char buffer[255];
-        sprintf(buffer, "%s/%s", SDL_AndroidGetExternalStoragePath(), path);
+    if (!handle) {
+        eprinterr("Can't open file '%s'\n", buffer);
+        assert(0);
+    }
 
-    #ifdef _DEBUG
-        eprintinfo("Open file '%s' \n", buffer);
-    #endif
-
-        FILE* handle = fopen(buffer, mode);
-
-        if (!handle) {
-            eprinterr("Can't open file '%s'\n", buffer);
-            assert(0);
-        }
-
-        return handle;
-    #else
-        return fopen(path, mode);
-    #endif
+    return handle;
+#else
+    return fopen(path, mode);
+#endif
 }
 
