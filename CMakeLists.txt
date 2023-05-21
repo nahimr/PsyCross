@@ -14,6 +14,9 @@ add_compile_options(
 	-fpermissive
 )
 
+add_subdirectory(dependencies/SDL)
+add_subdirectory(dependencies/openal)
+
 # Project Files
 
 file(GLOB_RECURSE PSYCROSS_SRCS_C

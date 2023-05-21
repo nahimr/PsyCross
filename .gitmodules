@@ -2,3 +2,7 @@
 	path = dependencies/SDL
 	url = git@github.com:libsdl-org/SDL.git
 	branch = SDL2
+[submodule "dependencies/openal"]
+	path = dependencies/openal
+	url = git@github.com:kcat/openal-soft.git
+	branch = master
