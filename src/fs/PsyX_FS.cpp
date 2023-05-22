@@ -1,5 +1,7 @@
 #include "PsyX_FS.h"
 #include "PsyX/PsyX_globals.h"
+#include "SDL.h"
+#include "../PsyX_main.h"
 
 #include <assert.h>
 

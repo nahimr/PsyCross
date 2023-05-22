@@ -283,10 +283,8 @@ int GR_InitialiseGLContext(char* windowName, int fullscreen)
 	SDL_DisplayMode displayMode;
 	if (SDL_GetCurrentDisplayMode(0, &displayMode) == 0)
 	{
-		screenWidth = displayMode.w;
-		windowWidth = displayMode.w;
-		screenHeight = displayMode.h;
-		windowHeight = displayMode.h;
+		g_windowWidth = displayMode.w;
+		g_windowHeight = displayMode.h;
 	}
 #endif
 
