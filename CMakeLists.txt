@@ -2,21 +2,51 @@ cmake_minimum_required(VERSION 3.6)
 
 project(PsyCross C CXX)
 
-if(ANDROID)
-	# FindOpenAL variables
-	set(OPENAL_INCLUDE_DIR dependencies/openal/include)
-	set(OPENAL_LIBRARY dependencies/openal)
-	
+option(BUILD_DEPS "Building Dependencies from sources" OFF)
+
+if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
+  set(PSYCROSS_SUBPROJECT OFF)
+else()
+  set(PSYCROSS_SUBPROJECT ON)
+endif()
+
+# Building from sources
+if(BUILD_DEPS OR ANDROID OR EMSCRIPTEN OR IOS OR TVOS)
+	if(NOT(PSYCROSS_SUBPROJECT))
+		# Dependencies Sources
+		set(OPENAL_LIBRARY dependencies/openal)
+		set(SDL2_LIBRARY dependencies/SDL)
+	endif()
+
+	if(NOT(OPENAL_LIBRARY))
+		message(FATAL_ERROR "OPENAL_LIBRARY is missing !")
+	endif()
+
+	if(NOT(SDL2_LIBRARY))
+		message(FATAL_ERROR "SDL2_LIBRARY is missing !")
+	endif()
+
+	# Dependencies Includes
+	set(OPENAL_INCLUDE_DIR ${OPENAL_LIBRARY}/include)
+	set(SDL2_INCLUDE_DIR ${SDL2_LIBRARY}/include)
+
 	# Build SDL2 from source
-	include_directories(dependencies/SDL/include)
-	add_subdirectory(dependencies/SDL EXCLUDE_FROM_ALL)
-	
+	add_subdirectory(${SDL2_LIBRARY})
+	include_directories(${SDL2_INCLUDE_DIR})
+
 	# Build OpenAL from source
 	add_subdirectory(${OPENAL_LIBRARY})
 	include_directories(${OPENAL_INCLUDE_DIR})
 else()
 	find_package(SDL2 REQUIRED)
 	find_package(OpenAL REQUIRED)
+	if(NOT(OPENAL_FOUND))
+		message(FATAL_ERROR "Missing OpenAL !")
+	endif()
+
+	if(NOT(SDL2_FOUND))
+		message(FATAL_ERROR "Missing SDL2 !")
+	endif()
 endif()
 
 # Compiler arguments
@@ -31,7 +61,6 @@ add_compile_options(
 )
 
 # Project Files
-
 file(GLOB_RECURSE PSYCROSS_SRCS_C
 	"src/*.c"
 )
@@ -43,12 +72,12 @@ file(GLOB_RECURSE PSYCROSS_SRCS_CPP
 set_source_files_properties(${PSYCROSS_SRCS_C} PROPERTIES LANGUAGE C)
 set_source_files_properties(${PSYCROSS_SRCS_CPP} PROPERTIES LANGUAGE CXX)
 
-add_library(psycross_static STATIC ${PSYCROSS_SRCS_C} ${PSYCROSS_SRCS_CPP})
-set_target_properties(psycross_static PROPERTIES OUTPUT_NAME "psycross")
-target_include_directories(psycross_static PUBLIC "include" "include/psx")
+add_library(PsyCross ${PSYCROSS_SRCS_C} ${PSYCROSS_SRCS_CPP})
+set_target_properties(PsyCross PROPERTIES OUTPUT_NAME "psycross")
+target_include_directories(PsyCross PUBLIC "include" "include/psx")
 
-target_link_libraries(psycross_static ${SDL2_LIBRARIES})
-target_include_directories(psycross_static PRIVATE ${SDL2_INCLUDE_DIRS})
+target_include_directories(PsyCross PRIVATE ${SDL2_INCLUDE_DIRS})
+target_link_libraries(PsyCross ${SDL2_LIBRARIES})
 
-target_link_libraries(psycross_static OpenAL)
-target_include_directories(psycross_static PRIVATE ${OpenAL_BINARY_DIR} ${OpenAL_SOURCE_DIR}/include)
+target_include_directories(PsyCross PRIVATE ${OpenAL_BINARY_DIR} ${OpenAL_SOURCE_DIR}/include)
+target_link_libraries(PsyCross openal)
