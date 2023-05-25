@@ -1,3 +1,4 @@
+#include "PsyX/PsyX_public.h"
 #include "../PsyX_main.h"
 #include "psx/libmcrd.h"
 #include <stdio.h>

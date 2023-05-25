@@ -1,4 +1,4 @@
-
+#include "PsyX/PsyX_public.h"
 #include "psx/libsn.h"
 #include <stdio.h>
 

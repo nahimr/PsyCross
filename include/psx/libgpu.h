@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "PsyX/common/pgxp_defs.h"
+#include "psx/libgte.h"
 
 extern	int (*GPU_printf)(const char *fmt, ...);
 

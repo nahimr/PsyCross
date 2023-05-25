@@ -49,30 +49,40 @@ else()
 	endif()
 endif()
 
-# Compiler arguments
-add_compile_options(
-	-Wno-narrowing 
-	-Wno-endif-labels 
-	-Wno-write-strings 
-	-Wno-format 
-	-Wno-format-security 
-	-Wno-unused-result 
-	-fpermissive
-)
+if(WIN32)
+	add_definitions(-D_WINDOWS)
+elseif(EMSCRIPTEN)
+	add_definitions(-D__EMSCRIPTEN__)
+	add_compile_options(
+		-Wno-c++11-narrowing
+		-Wno-constant-conversion
+		-Wno-writable-strings
+		-Wno-unused-value
+		-Wno-switch
+		-Wno-shift-op-parentheses
+		-Wno-parentheses
+		-Wno-format
+	)
+elseif(UNIX)
+	add_compile_options(
+		-Wno-narrowing 
+		-Wno-endif-labels 
+		-Wno-write-strings 
+		-Wno-format 
+		-Wno-format-security 
+		-Wno-unused-result 
+		-fpermissive
+	)
+endif()
 
 # Project Files
-file(GLOB_RECURSE PSYCROSS_SRCS_C
-	"src/*.c"
-)
-
-file(GLOB_RECURSE PSYCROSS_SRCS_CPP
-	"src/*.cpp"
-)
+file(GLOB_RECURSE PSYCROSS_SRCS_C "src/**/*.c" "src/**/*.C")
+file(GLOB_RECURSE PSYCROSS_SRCS_CPP "src/**.cpp" "src/**.CPP")
 
 set_source_files_properties(${PSYCROSS_SRCS_C} PROPERTIES LANGUAGE C)
 set_source_files_properties(${PSYCROSS_SRCS_CPP} PROPERTIES LANGUAGE CXX)
 
-add_library(PsyCross ${PSYCROSS_SRCS_C} ${PSYCROSS_SRCS_CPP})
+add_library(PsyCross STATIC ${PSYCROSS_SRCS_C} ${PSYCROSS_SRCS_CPP})
 set_target_properties(PsyCross PROPERTIES OUTPUT_NAME "psycross")
 target_include_directories(PsyCross PUBLIC "include" "include/psx")
 
