@@ -542,6 +542,23 @@ void PrintMessageToOutput(SpewType_t spewtype, char const* pMsgFormat, va_list a
 			console.log(UTF8ToString($0));
 		}, pTempBuffer);
 	}
+#elif defined(__ANDROID__)
+	if (spewtype == SPEW_INFO)
+	{
+		__android_log_print(ANDROID_LOG_INFO, LOG_TAG_EMU " [INFO]", pMsgFormat, args);
+	}
+	else if (spewtype == SPEW_WARNING)
+	{
+		__android_log_print(ANDROID_LOG_WARN, LOG_TAG_EMU " [WARN]", pMsgFormat, args);
+	}
+	else if (spewtype == SPEW_ERROR)
+	{
+		__android_log_print(ANDROID_LOG_ERROR, LOG_TAG_EMU " [ERROR]", pMsgFormat, args);
+	}
+	else
+	{
+		__android_log_print(ANDROID_LOG_DEBUG, LOG_TAG_EMU, pMsgFormat, args);
+	}
 #else
 	printf(pTempBuffer);
 #endif

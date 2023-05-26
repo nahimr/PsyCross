@@ -16,7 +16,7 @@ FILE *PsyX_FS_OpenFile(const char *path, const char *mode) {
 
     if (!handle) {
         eprinterr("Can't open file '%s'\n", buffer);
-        assert(0);
+        return NULL;
     }
 
     return handle;

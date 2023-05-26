@@ -10,8 +10,10 @@ else()
   set(PSYCROSS_SUBPROJECT ON)
 endif()
 
+set(LD_LIBS OpenAL)
+
 # Building from sources
-if(BUILD_DEPS OR ANDROID OR EMSCRIPTEN OR IOS OR TVOS)
+if(BUILD_DEPS)
 	if(NOT(PSYCROSS_SUBPROJECT))
 		# Dependencies Sources
 		set(OPENAL_LIBRARY dependencies/openal)
@@ -37,9 +39,11 @@ if(BUILD_DEPS OR ANDROID OR EMSCRIPTEN OR IOS OR TVOS)
 	# Build OpenAL from source
 	add_subdirectory(${OPENAL_LIBRARY})
 	include_directories(${OPENAL_INCLUDE_DIR})
-else()
+elseif(UNIX AND NOT(ANDROID OR EMSCRIPTEN OR IOS OR TVOS))
 	find_package(SDL2 REQUIRED)
 	find_package(OpenAL REQUIRED)
+	set(LD_LIBS openal)
+
 	if(NOT(OPENAL_FOUND))
 		message(FATAL_ERROR "Missing OpenAL !")
 	endif()
@@ -75,6 +79,12 @@ elseif(UNIX)
 	)
 endif()
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(
+        -D_DEBUG=1
+    )
+endif()
+
 # Project Files
 file(GLOB_RECURSE PSYCROSS_SRCS_C "src/**/*.c" "src/**/*.C")
 file(GLOB_RECURSE PSYCROSS_SRCS_CPP "src/**.cpp" "src/**.CPP")
@@ -90,4 +100,4 @@ target_include_directories(PsyCross PRIVATE ${SDL2_INCLUDE_DIRS})
 target_link_libraries(PsyCross ${SDL2_LIBRARIES})
 
 target_include_directories(PsyCross PRIVATE ${OpenAL_BINARY_DIR} ${OpenAL_SOURCE_DIR}/include)
-target_link_libraries(PsyCross openal)
+target_link_libraries(PsyCross ${LD_LIBS})
