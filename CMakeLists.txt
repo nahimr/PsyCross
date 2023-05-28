@@ -55,6 +55,17 @@ endif()
 
 if(WIN32)
 	add_definitions(-D_WINDOWS)
+elseif(ANDROID)
+	add_compile_options(
+		-Wno-narrowing 
+		-Wno-endif-labels 
+		-Wno-write-strings 
+		-Wno-format 
+		-Wno-format-security 
+		-Wno-unused-result 
+		-fpermissive
+        -fsigned-char
+	)
 elseif(EMSCRIPTEN)
 	add_definitions(-D__EMSCRIPTEN__)
 	add_compile_options(
